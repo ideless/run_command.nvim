@@ -5,7 +5,7 @@ A Neovim plugin for executing and managing terminal commands. With `run_command.
 ## Features
 
 - Run any command directly in a terminal buffer.
-- Keep a history of previously executed commands.
+- Keep a history of previously executed commands and their results.
 - Use Telescope to select and run commands from your command history.
 - Configurable terminal settings.
 
@@ -32,7 +32,7 @@ After installation, you can execute commands using the following user-defined co
 
 - `:RunCommand <command>`: Runs the specified `<command>`.
 - `:RunLastCommand`: Re-runs the last executed command.
-- `:RunCommandFromHistory`: Opens a Telescope picker with the command history, allowing you to select and re-run a command.
+- `:RunCommandFromHistory`: Opens a Telescope picker with the command history, allowing you to select and re-run a command. The previous command results are shown in the preview window.
 
 ## Configuration
 

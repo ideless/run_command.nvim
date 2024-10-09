@@ -4,6 +4,7 @@ local finders = require('telescope.finders')
 local conf = require('telescope.config').values
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
+local previewers = require('telescope.previewers')
 
 local M = {}
 
@@ -16,6 +17,11 @@ M.config = {
   }
 }
 
+-- Command history
+M.command_history = {}
+-- Dictionary to store the command results
+M.command_results = {}
+
 -- Initialize the terminal
 local function setup_terminal()
   M.cmd_term = Terminal:new {
@@ -24,11 +30,13 @@ local function setup_terminal()
     direction = M.config.window.direction,
     display_name = M.config.window.name,
     close_on_exit = false,
+    on_exit = function(term)
+      local cmd = term.cmd
+      local result = vim.api.nvim_buf_get_lines(term.bufnr, 0, -1, false)
+      M.command_results[cmd] = result
+    end,
   }
 end
-
--- Command history
-M.command_history = {}
 
 -- Internal function to run a command
 local function _run_cmd(cmd)
@@ -56,12 +64,21 @@ end
 
 -- API 3: Run a command from history using Telescope
 M.run_command_from_history = function()
+  -- Show the results in a preview window
   pickers.new({}, {
     prompt_title = "Command History",
     finder = finders.new_table {
       results = M.command_history,
     },
     sorter = conf.generic_sorter({}),
+    previewer = previewers.new_buffer_previewer {
+      title = "Command Result",
+      define_preview = function(self, entry, status)
+        local cmd = entry[1]
+        local result = M.command_results[cmd] or { "No result available" }
+        vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, result)
+      end,
+    },
     attach_mappings = function(prompt_bufnr, map)
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
