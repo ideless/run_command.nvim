@@ -41,10 +41,9 @@ You can customize the default settings by passing a configuration table when cal
 
 ```lua
 require('run_command').setup({
-  initial_command = "echo 'Welcome to run_command.nvim'",
   window = {
-    direction = "vertical", -- Options: "horizontal", "vertical", "tab"
-    name = "CustomTerminalName"
+    direction = "horizontal", -- Options: "vertical", "vertical", "tab"
+    name = "cmd_term"
   }
 })
 ```

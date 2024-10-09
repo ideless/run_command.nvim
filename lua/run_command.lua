@@ -10,7 +10,6 @@ local M = {}
 
 -- Default configuration
 M.config = {
-  initial_command = "echo 'You have not executed any command'",
   window = {
     direction = "horizontal",
     name = "cmd_term",
@@ -25,7 +24,7 @@ M.command_results = {}
 -- Initialize the terminal
 local function setup_terminal()
   M.cmd_term = Terminal:new {
-    cmd = M.config.initial_command,
+    cmd = "",
     hidden = true,
     direction = M.config.window.direction,
     display_name = M.config.window.name,
