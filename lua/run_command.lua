@@ -58,7 +58,7 @@ M.run_last_command = function ()
   if #M.command_history > 0 then
     _run_cmd(M.command_history[#M.command_history])
   else
-    print("No command history available")
+    vim.notify("The command history is empty", vim.log.levels.WARN)
   end
 end
 
@@ -92,8 +92,10 @@ end
 
 -- API 4: Clear the command history
 M.clear_command_history = function()
+  local num_commands = #M.command_history
   M.command_history = {}
   M.command_results = {}
+  vim.notify("Cleared " .. num_commands .. " commands from history")
 end
 
 -- Setup function
