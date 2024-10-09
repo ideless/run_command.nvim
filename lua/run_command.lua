@@ -90,22 +90,32 @@ M.run_command_from_history = function()
   }):find()
 end
 
+-- API 4: Clear the command history
+M.clear_command_history = function()
+  M.command_history = {}
+  M.command_results = {}
+end
+
 -- Setup function
 function M.setup(user_config)
   M.config = vim.tbl_deep_extend("force", M.config, user_config or {})
   setup_terminal()
 
   -- Register user commands
-  vim.api.nvim_create_user_command("RunCommand", function(opts)
+  vim.api.nvim_create_user_command("RcRun", function(opts)
     M.run_command(opts.args)
   end, { nargs = '+' })
 
-  vim.api.nvim_create_user_command("RunLastCommand", function()
+  vim.api.nvim_create_user_command("RcRunLast", function()
     M.run_last_command()
   end, {})
 
-  vim.api.nvim_create_user_command("RunCommandFromHistory", function()
+  vim.api.nvim_create_user_command("RcRunFromHistory", function()
     M.run_command_from_history()
+  end, {})
+
+  vim.api.nvim_create_user_command("RcClearHistory", function()
+    M.clear_command_history()
   end, {})
 end
 

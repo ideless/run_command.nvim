@@ -30,9 +30,10 @@ require("lazy").setup({
 
 After installation, you can execute commands using the following user-defined commands:
 
-- `:RunCommand <command>`: Runs the specified `<command>`.
-- `:RunLastCommand`: Re-runs the last executed command.
-- `:RunCommandFromHistory`: Opens a Telescope picker with the command history, allowing you to select and re-run a command. The previous command results are shown in the preview window.
+- `:RcRun <command>`: Runs the specified `<command>`.
+- `:RcRunLast`: Re-runs the last executed command.
+- `:RcRunFromHistory`: Opens a Telescope picker with the command history, allowing you to select and re-run a command. The previous command results are shown in the preview window.
+- `:RcClearHistory`: Clear the command history and command results.
 
 ## Configuration
 
@@ -55,13 +56,15 @@ The following functions are available within the plugin:
 - `run_command(cmd)`: Runs the specified command and adds it to history.
 - `run_last_command()`: Executes the most recently run command from history.
 - `run_command_from_history()`: Opens a Telescope picker to choose a command from history.
+- `clear_command_history()`: Clears the command history and command results.
 
 ## Key Mappings
 
 Consider adding key mappings in your Neovim configuration for quick access:
 
 ```lua
-vim.api.nvim_set_keymap('n', '<leader>rc', ':RunCommand ', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>rl', ':RunLastCommand<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>rh', ':RunCommandFromHistory<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>rr', ':RcRun ')
+vim.api.nvim_set_keymap('n', '<leader>rl', ':RcRunLast<CR>')
+vim.api.nvim_set_keymap('n', '<leader>rh', ':RcRunFromHistory<CR>')
+vim.api.nvim_set_keymap('n', '<leader>rc', ':RcClearHistory<CR>')
 ```
