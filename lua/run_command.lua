@@ -44,6 +44,7 @@ local function _run_cmd(cmd)
   end
   M.cmd_term.cmd = cmd
   M.cmd_term:open()
+  M.cmd_term:set_mode("i")
 end
 
 -- API 1: Run a command
