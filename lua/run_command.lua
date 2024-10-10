@@ -39,6 +39,7 @@ end
 
 -- Internal function to run a command
 local function _run_cmd(cmd)
+  table.insert(M.command_history, cmd)
   M.cmd_term:shutdown()
   M.cmd_term.cmd = cmd
   M.cmd_term:open()
@@ -47,7 +48,6 @@ end
 
 -- API 1: Run a command
 M.run_command = function(cmd)
-  table.insert(M.command_history, cmd)
   _run_cmd(cmd)
 end
 
@@ -66,7 +66,7 @@ M.run_command_from_history = function()
   pickers.new({}, {
     prompt_title = "Command History",
     finder = finders.new_table {
-      results = M.command_history,
+      results = vim.tbl_keys(M.command_results),
     },
     sorter = conf.generic_sorter({}),
     previewer = previewers.new_buffer_previewer {
@@ -90,7 +90,7 @@ end
 
 -- API 4: Clear the command history
 M.clear_command_history = function()
-  local num_commands = #M.command_history
+  local num_commands = #vim.tbl_keys(M.command_results)
   M.command_history = {}
   M.command_results = {}
   vim.notify("Cleared " .. num_commands .. " commands from history")
