@@ -39,9 +39,7 @@ end
 
 -- Internal function to run a command
 local function _run_cmd(cmd)
-  if M.cmd_term:is_open() then
-    M.cmd_term:shutdown()
-  end
+  M.cmd_term:shutdown()
   M.cmd_term.cmd = cmd
   M.cmd_term:open()
   M.cmd_term:set_mode("i")
