@@ -8,6 +8,7 @@ A Neovim plugin for executing and managing terminal commands. With `run_command.
 - Keep a history of previously executed commands and their results.
 - Use Telescope to select and run commands from your command history.
 - Configurable terminal settings.
+- Basic support for persistent history of commands.
 
 ## Installation
 
@@ -43,8 +44,13 @@ You can customize the default settings by passing a configuration table when cal
 require('run_command').setup({
   window = {
     direction = "horizontal", -- Options: "vertical", "vertical", "tab"
-    name = "cmd_term"
-  }
+    name = "cmd_term",
+  },
+  storage = {
+    session = {
+      key = "RC_session", -- Starts with uppercase, contains lowercase
+    },
+  },
 })
 ```
 
@@ -67,3 +73,10 @@ vim.api.nvim_set_keymap('n', '<leader>rl', ':RcRunLast<CR>')
 vim.api.nvim_set_keymap('n', '<leader>rh', ':RcRunFromHistory<CR>')
 vim.api.nvim_set_keymap('n', '<leader>rc', ':RcClearHistory<CR>')
 ```
+
+## Persistent storage of command history
+
+To enable session storage, please ensure the following:
+
+- Configure `storage.session.key` correctly and include `globals` in `sessionoptions` (refer to `:h Session` for more details).
+- (Optional) Consider using an automated session management plugin, such as `folke/persistence.nvim`, to streamline the process.
