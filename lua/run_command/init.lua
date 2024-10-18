@@ -161,7 +161,7 @@ function M.setup(user_config)
   -- Register user commands
   vim.api.nvim_create_user_command("RcRun", function(opts)
     M.run_command(opts.args)
-  end, { nargs = "+" })
+  end, { nargs = "+", complete = "shellcmd" })
 
   vim.api.nvim_create_user_command("RcRunLast", function()
     M.run_last_command()
