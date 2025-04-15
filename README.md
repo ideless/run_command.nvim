@@ -1,18 +1,18 @@
 # run_command.nvim
 
-A Neovim plugin for executing and managing terminal commands. With `run_command.nvim`, you can run commands directly from Neovim, keep a history of commands, and easily re-execute previous commands using a simple interface.
+A Neovim plugin that provides an interactive interface to run shell commands from your README.md file.
 
 ## Features
 
-- Run any command directly in a terminal buffer.
-- Keep a history of previously executed commands and their results.
-- Use Telescope to select and run commands from your command history.
-- Configurable terminal settings.
-- Basic support for persistent history of commands.
+- Extract shell commands from README.md files with descriptions
+- Interactive command selection using Telescope
+- Preview command blocks before execution
+- Run commands in a toggleable terminal
+- Remember and re-run last executed command
 
 ## Installation
 
-To install `run_command.nvim`, you can use [lazy.nvim](https://github.com/folke/lazy.nvim). Add the following line to your Neovim configuration:
+Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ```lua
 require("lazy").setup({
@@ -22,61 +22,17 @@ require("lazy").setup({
       "akinsho/toggleterm.nvim",
       "nvim-telescope/telescope.nvim",
     },
-    opts = {},
+    opts = {
+      window = {
+        direction = "horizontal", -- or "vertical" | "float"
+        name = "cmd_term",        -- terminal display name
+      },
+    },
   },
 })
 ```
 
 ## Usage
 
-After installation, you can execute commands using the following user-defined commands:
-
-- `:RcRun <command>`: Runs the specified `<command>`.
-- `:RcRunLast`: Re-runs the last executed command.
-- `:RcRunFromHistory`: Opens a Telescope picker with the command history, allowing you to select and re-run a command. The previous command results are shown in the preview window.
-- `:RcClearHistory`: Clear the command history and command results.
-
-## Configuration
-
-You can customize the default settings by passing a configuration table when calling `setup`:
-
-```lua
-require('run_command').setup({
-  window = {
-    direction = "horizontal", -- Options: "vertical", "vertical", "tab"
-    name = "cmd_term",
-  },
-  storage = {
-    session = {
-      key = "RC_session", -- Starts with uppercase, contains lowercase
-    },
-  },
-})
-```
-
-## API Functions
-
-The following functions are available within the plugin:
-
-- `run_command(cmd)`: Runs the specified command and adds it to history.
-- `run_last_command()`: Executes the most recently run command from history.
-- `run_command_from_history()`: Opens a Telescope picker to choose a command from history.
-- `clear_command_history()`: Clears the command history and command results.
-
-## Key Mappings
-
-Consider adding key mappings in your Neovim configuration for quick access:
-
-```lua
-vim.api.nvim_set_keymap('n', '<leader>rr', ':RcRun ')
-vim.api.nvim_set_keymap('n', '<leader>rl', ':RcRunLast<CR>')
-vim.api.nvim_set_keymap('n', '<leader>rh', ':RcRunFromHistory<CR>')
-vim.api.nvim_set_keymap('n', '<leader>rc', ':RcClearHistory<CR>')
-```
-
-## Persistent storage of command history
-
-To enable session storage, please ensure the following:
-
-- Configure `storage.session.key` correctly and include `globals` in `sessionoptions` (refer to `:h Session` for more details).
-- (Optional) Consider using an automated session management plugin, such as `folke/persistence.nvim`, to streamline the process.
+- `:RcRun` - Open the command picker to select and run a command
+- `:RcRunLast` - Re-run the last executed command
