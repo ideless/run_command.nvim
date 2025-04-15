@@ -1,6 +1,6 @@
 # run_command.nvim
 
-A Neovim plugin that provides an interactive interface to run shell commands from your README.md file.
+A Neovim plugin that provides an interactive interface to run shell commands in your README.md file.
 
 ## Features
 
