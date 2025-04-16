@@ -5,7 +5,6 @@ local conf = require("telescope.config").values
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local previewers = require("telescope.previewers")
-local session = require("run_command.session")
 local extract_commands = require("run_command.extract_commands")
 
 local M = {}
