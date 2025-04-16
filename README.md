@@ -27,6 +27,9 @@ require("lazy").setup({
         direction = "horizontal", -- or "vertical" | "float"
         name = "cmd_term",        -- terminal display name
       },
+      shell = {
+        exit_on_error = true,     -- join commands by && or ;
+      },
     },
   },
 })

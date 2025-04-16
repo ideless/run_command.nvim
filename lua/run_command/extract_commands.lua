@@ -1,9 +1,10 @@
 local M = {}
 
 -- Function to process a bash code block
-local function process_bash_block(lines)
+local function process_bash_block(lines, exit_on_error)
   local commands = {}
   local current_command = ""
+  local joined_by = exit_on_error and " && " or "; "
 
   for _, line in ipairs(lines) do
     -- Remove leading/trailing whitespace
@@ -22,12 +23,12 @@ local function process_bash_block(lines)
     end
   end
 
-  -- Join commands with &&
-  return table.concat(commands, " && ")
+  -- Join commands with && or ;
+  return table.concat(commands, joined_by)
 end
 
 -- Main processing function
-function M.extract_commands(lines)
+function M.extract_commands(lines, exit_on_error)
   local prev_line = ""
   local in_bash_block = false
   local current_block = {}
@@ -43,7 +44,7 @@ function M.extract_commands(lines)
       -- Check for code block end
     elseif in_bash_block and line == "```" then
       in_bash_block = false
-      local command = process_bash_block(current_block)
+      local command = process_bash_block(current_block, exit_on_error)
       if command ~= "" then
         table.insert(commands, {
           description = prev_line:gsub("^%s*(.-)%s*$", "%1"),

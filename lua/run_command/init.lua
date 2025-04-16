@@ -5,7 +5,7 @@ local conf = require("telescope.config").values
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local previewers = require("telescope.previewers")
-local extract_commands = require("run_command.extract_commands")
+local ec = require("run_command.extract_commands")
 
 local M = {}
 
@@ -14,6 +14,9 @@ M.config = {
   window = {
     direction = "horizontal",
     name = "cmd_term",
+  },
+  shell = {
+    exit_on_error = true,
   },
 }
 
@@ -52,7 +55,7 @@ local function read_README()
     return
   elseif lmt ~= M.last_modified_time then
     local lines = vim.fn.readfile("README.md")
-    M.commands = extract_commands.extract_commands(lines)
+    M.commands = ec.extract_commands(lines, M.config.exit_on_error)
     M.last_modified_time = lmt
   end
 end
