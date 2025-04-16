@@ -41,3 +41,11 @@ require("lazy").setup({
 
 The script will extract code blocks marked as `sh` or `bash` from the project's root `README.md` file.
 For each code block found, the preceding line (if it exists) will be used as its description.
+
+## Development
+
+Test `extract_commands.lua`:
+
+```sh
+lua test/test_extract_commands.lua | diff - test/README.md.yaml
+```

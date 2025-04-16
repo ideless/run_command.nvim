@@ -1,0 +1,31 @@
+- description: "Here's a simple command:"
+  command: "echo \"Hello World\""
+  block:
+  - "echo \"Hello World\""
+- description: "A command split across multiple lines:"
+  command: "echo \"This is a long command that\" \"spans multiple lines\" \"for better readability\""
+  block:
+  - "echo \"This is a long command that\" \\"
+  - "     \"spans multiple lines\" \\"
+  - "     \"for better readability\""
+- description: "Several commands in one block:"
+  command: "NAME=\"Test User\" && AGE=30 && echo \"Name: $NAME\" && echo \"Age: $AGE\" && unset NAME AGE"
+  block:
+  - "# Initialize variables"
+  - "NAME=\"Test User\""
+  - "AGE=30"
+  - ""
+  - "# Print information"
+  - "echo \"Name: $NAME\" && \\"
+  - "echo \"Age: $AGE\""
+  - ""
+  - "# Clean up"
+  - "unset NAME AGE"
+- description: "This command has a description:"
+  command: "ls -la"
+  block:
+  - "ls -la"
+- description: ""
+  command: "echo \"This command has no description\""
+  block:
+  - "echo \"This command has no description\""
