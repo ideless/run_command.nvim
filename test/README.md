@@ -4,10 +4,12 @@ This file tests the bash command extraction script.
 
 ## Basic Commands
 
+Commands are code blocks marked by `sh` or `bash`.
+
 Here's a simple command:
 
 ```bash
-echo "Hello World"
+echo "Hello World" # Some comments
 ```
 
 ## Multi-line Command

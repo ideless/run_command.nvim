@@ -1,5 +1,33 @@
 local M = {}
 
+local function remove_comment(line)
+  local in_single = false
+  local in_double = false
+  local escaped = false
+
+  for i = 1, #line do
+    local c = line:sub(i, i)
+
+    if not escaped then
+      if c == "\\" then
+        escaped = true
+      else
+        if c == "'" and not in_double then
+          in_single = not in_single
+        elseif c == '"' and not in_single then
+          in_double = not in_double
+        elseif c == "#" and not in_single and not in_double then
+          return line:sub(1, i - 1)
+        end
+      end
+    else
+      escaped = false
+    end
+  end
+
+  return line
+end
+
 -- Function to process a bash code block
 local function process_bash_block(lines, exit_on_error)
   local commands = {}
@@ -7,10 +35,9 @@ local function process_bash_block(lines, exit_on_error)
   local joined_by = exit_on_error and " && " or "; "
 
   for _, line in ipairs(lines) do
-    -- Remove leading/trailing whitespace
+    line = remove_comment(line)
     line = line:gsub("^%s*(.-)%s*$", "%1")
-    -- Skip empty lines and comments
-    if line ~= "" and not line:match("^#") then
+    if line ~= "" then
       -- If line ends with \, append to current command (without the \)
       if line:match("\\%s*$") then
         current_command = current_command .. line:gsub("%s*\\%s*$", " ")

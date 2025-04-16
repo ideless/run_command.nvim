@@ -1,7 +1,7 @@
 - description: "Here's a simple command:"
   command: "echo \"Hello World\""
   block:
-  - "echo \"Hello World\""
+  - "echo \"Hello World\" # Some comments"
 - description: "A command split across multiple lines:"
   command: "echo \"This is a long command that\" \"spans multiple lines\" \"for better readability\""
   block:

@@ -19,7 +19,7 @@ for line in content:gmatch("[^\n]*") do
   table.insert(lines, line)
 end
 
-commands = ec.extract_commands(lines)
+commands = ec.extract_commands(lines, true)
 
 for _, c in ipairs(commands) do
   print(string.format("- description: %q", c.description))
