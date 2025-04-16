@@ -10,6 +10,13 @@ A Neovim plugin that provides an interactive interface to run shell commands in 
 - Run commands in a toggleable terminal
 - Remember and re-run last executed command
 
+## Command extraction rule
+
+The script will extract code blocks marked as `sh` or `bash` from the project's root `README.md` file.
+For each code block found, the preceding line (if it exists) will be used as its description.
+
+Check the [test README](./test/README.md) and the [extracted commands](./test/README.md.yaml) for examples.
+
 ## Installation
 
 Using [lazy.nvim](https://github.com/folke/lazy.nvim):
@@ -39,11 +46,6 @@ require("lazy").setup({
 
 - `:RcRun` - Open the command picker to select and run a command
 - `:RcRunLast` - Re-run the last executed command
-
-## Command extraction rule
-
-The script will extract code blocks marked as `sh` or `bash` from the project's root `README.md` file.
-For each code block found, the preceding line (if it exists) will be used as its description.
 
 ## Development
 
