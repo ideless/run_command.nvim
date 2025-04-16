@@ -1,18 +1,17 @@
 local M = {}
 
 -- Function to process a bash code block
-local function process_bash_block(block)
+local function process_bash_block(lines)
   local commands = {}
   local current_command = ""
 
-  for _, line in ipairs(block) do
+  for _, line in ipairs(lines) do
     -- Remove leading/trailing whitespace
     line = line:gsub("^%s*(.-)%s*$", "%1")
-
     -- Skip empty lines and comments
     if line ~= "" and not line:match("^#") then
       -- If line ends with \, append to current command (without the \)
-      if line:match("%s*\\%s*$") then
+      if line:match("\\%s*$") then
         current_command = current_command .. line:gsub("%s*\\%s*$", " ")
       else
         -- Otherwise, complete the command
@@ -28,46 +27,38 @@ local function process_bash_block(block)
 end
 
 -- Main processing function
-function M.extract_commands(filename)
-  local file = io.open(filename, "r")
-  if not file then
-    io.stderr:write("Error: Could not open file " .. filename .. "\n")
-    os.exit(1)
-  end
-
-  local content = file:read("*a")
-  file:close()
-
+function M.extract_commands(lines)
   local prev_line = ""
   local in_bash_block = false
   local current_block = {}
   local commands = {}
 
-  for line in content:gmatch("[^\r\n]+") do
+  for _, line in ipairs(lines) do
+    -- Remove trailing CR/LF
+    line = line:gsub("[\r\n]*$", "")
     -- Check for code block start
     if line == "```sh" or line == "```bash" then
       in_bash_block = true
       current_block = {}
       -- Check for code block end
-    elseif in_bash_block and line:match("^```") then
+    elseif in_bash_block and line == "```" then
       in_bash_block = false
       local command = process_bash_block(current_block)
       if command ~= "" then
-        -- Print description if available
-        local description = prev_line:gsub("^%s*(.-)%s*$", "%1")
         table.insert(commands, {
-          description = description,
+          description = prev_line:gsub("^%s*(.-)%s*$", "%1"),
           command = command,
           block = current_block,
         })
       end
+      prev_line = ""
       -- Collect lines in bash block
     elseif in_bash_block then
       table.insert(current_block, line)
       -- Store previous line (for description)
-    elseif line:match("^```") then
+    elseif line == "```" then
       prev_line = ""
-    else
+    elseif line ~= "" then
       prev_line = line
     end
   end

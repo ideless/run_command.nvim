@@ -51,7 +51,8 @@ local function read_README()
     M.last_modified_time = -1
     return
   elseif lmt ~= M.last_modified_time then
-    M.commands = extract_commands.extract_commands("README.md")
+    local lines = vim.fn.readfile("README.md")
+    M.commands = extract_commands.extract_commands(lines)
     M.last_modified_time = lmt
   end
 end
@@ -66,10 +67,11 @@ M.run_command = function(cmd)
       finder = finders.new_table({
         results = M.commands,
         entry_maker = function(entry)
+          local display = entry.description ~= "" and entry.description or entry.command
           return {
             value = entry,
-            display = entry.description,
-            ordinal = entry.description,
+            display = display,
+            ordinal = display,
           }
         end,
       }),
