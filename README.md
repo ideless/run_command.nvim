@@ -54,3 +54,9 @@ Test `extract_commands.lua`:
 ```sh
 lua test/test_extract_commands.lua | diff - test/README.md.yaml
 ```
+
+Run `indefinite_task.sh`:
+
+```sh
+bash test/indefinite_task.sh
+```

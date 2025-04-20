@@ -32,6 +32,9 @@ local function setup_terminal()
     direction = M.config.window.direction,
     display_name = M.config.window.name,
     close_on_exit = false,
+    on_open = function(term)
+      vim.api.nvim_buf_set_option(term.bufnr, "bufhidden", "wipe")
+    end,
   })
 end
 
